@@ -1,12 +1,12 @@
 const request = require('./request.js');
 
-let __API__ = '';
+let __API__ = 'http://localhost:8000';
 
-if ( process.env.NODE_ENV === 'production') {
-    __API__ = 'https://api.loungedinosaur.dk';
-} else {
-    __API__ = 'http://localhost:8000';
-}
+// if ( process.env.NODE_ENV === 'production') {
+//     __API__ = 'https://api.loungedinosaur.dk';
+// } else {
+//     __API__ = 'http://localhost:8000';
+// }
 
 function create(user) {
     return request.post(`${__API__}/api/user`, user)
@@ -22,7 +22,15 @@ function auth(user) {
         });
 }
 
+function me(token) {
+	return request.post(`${__API__}/api/me?${token}`)
+		.then(function(response) {
+			return response;
+		});
+}
+
 module.exports = {
     create: create,
-    auth: auth
+    auth: auth,
+	me: me
 };

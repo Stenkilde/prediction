@@ -11,6 +11,14 @@ export default class Login extends Component {
 		authP: ''
 	}
 
+	componentDidMount() {
+		let token = localStorage.getItem('token');
+
+		if (token) {
+			window.location = 'http://localhost:8080/list';
+		}
+	}
+
 	handleChange(e, type) {
 		if (type === 'name') {
 			this.setState({
@@ -58,7 +66,7 @@ export default class Login extends Component {
 		}
 
 		auth(user).then((response) => {
-			console.log(response);
+			localStorage.setItem('token', response.token);
 		})
 	}
 

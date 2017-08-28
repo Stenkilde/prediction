@@ -1,5 +1,9 @@
 import { h, Component } from 'preact';
-import { Router } from 'preact-router';
+import {
+  	BrowserRouter as Router,
+  	Route
+} from 'react-router-dom'
+import { me } from '../services/user';
 
 import Header from './header';
 import Home from './home';
@@ -7,23 +11,23 @@ import Login from './login/login';
 import Profile from './profile';
 
 export default class App extends Component {
-	/** Gets fired when the route changes.
-	 *	@param {Object} event		"change" event from [preact-router](http://git.io/preact-router)
-	 *	@param {string} event.url	The newly routed URL
-	 */
-	handleRoute = e => {
-		this.currentUrl = e.url;
-	};
+
+	componentDidMount() {
+		let token = localStorage.getItem('token');
+		me(token).then((response) => {
+			console.log(response);
+		})
+	}
 
 	render() {
 		return (
 			<div id="app">
 				<Header />
-				<Router onChange={this.handleRoute}>
-					<Login path="/" />
-					<Home path="/list" />
-					<Profile path="/profile/" user="me" />
-					<Profile path="/profile/:user" />
+				<Router>
+					<div>
+						<Route exact path="/" component={Login} />
+						<Route path="/list" component={Home} />
+					</div>
 				</Router>
 			</div>
 		);

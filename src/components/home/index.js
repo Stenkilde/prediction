@@ -9,7 +9,7 @@ export default class Home extends Component {
 	}
 
 	componentDidMount() {
-		get(2).then((response) => {
+		get(1).then((response) => {
 			this.setState({
 				groups: response
 			 });
